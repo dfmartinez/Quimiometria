@@ -1,0 +1,63 @@
+---
+title: "Modelos Quimiométricos"
+author: "Diego Martínez"
+params:
+  year : "2023"
+format: 
+  dashboard: 
+    orientation: rows
+---
+```{r}
+#| label: inicio
+
+library(bslib)
+library(tidyverse)
+library(bsicons)
+
+source("Soporte.R")
+
+datos <- resultados |> 
+  collect() |> 
+  filter(YEAR == params$year & ANALYSIS %in% analisistit) |> 
+  mutate(
+    CHEM = case_when(
+      str_detect(ANALYSIS, "IR") ~ "Chem",
+      TRUE ~ "Hum"
+    )
+  )
+reporte <- datos |> 
+  count(CHEM) |> 
+  pull(n)
+```
+
+
+## Resumen
+
+```{r}
+#| label: valores
+
+layout_column_wrap(
+  width = 1/3,
+  value_box(
+  title = "Modelos",
+  value = nrow(modelos),
+  showcase = bs_icon("layer-forward"),
+  shiny::h3("Modelos Creados")
+),
+value_box(
+  title = "Reportabilidad",
+  value = glue::glue("{round(reporte[1]/sum(reporte) * 100, digits = 0)} %"),
+  showcase = bs_icon("percent"),
+  shiny::h3("% Reporte")
+),
+value_box(
+  title = "Rechazos",
+  value = glue::glue("{round(nrow(failures)/reporte[1]*100, digits = 0)} %"),
+  showcase = bs_icon("cone-striped"),
+  shiny::h3("Muestras Rechazadas")
+)
+)
+```
+
+## Running Code
+
