@@ -231,5 +231,12 @@ page_navbar(
         plotOutput("histograma")
       )
     )
+  ),
+  nav_panel("Validación Modelos",
+    layout_column_wrap(
+      card(
+        
+      )
+    )
   )
 )

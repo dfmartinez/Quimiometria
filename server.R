@@ -287,6 +287,7 @@ observeEvent(input$crear,
       summarise(Media = mean(RESULT_VALUE, rm.na = TRUE), Desviacion = sd(RESULT_VALUE), 
                 Muestras = n(), `Máximo` = max(RESULT_VALUE), `Mínimo` = 
                   min(RESULT_VALUE)) |>
+      mutate(across(everything(), \(x) round(x, digits = 2)))
       pivot_longer(Media:`Mínimo`, names_to = "Propiedad", values_to = "Resultado") |> 
       reactable()
   })
