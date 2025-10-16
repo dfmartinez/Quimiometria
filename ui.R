@@ -17,150 +17,6 @@ library(lubridate)
 #   
 # }
 
-# Define UI for application that draws a histogram
-# dashboardPage(
-#   dashboardHeader(
-#     title = "Creación Modelos Quimiométricos"
-#   ),
-#   dashboardSidebar(
-#     collapsed = FALSE,
-#     sidebarMenu(
-#       menuItem(
-#         text = "Estadísticas Modelos",
-#         tabName = "resumen",
-#         icon = icon("chart-pie")
-#       ),
-#       menuItem(
-#         text = "Estadísticas Rechazos",
-#         tabName = "rechazos",
-#         icon = icon("wrench")
-#       ),
-#       menuItem(
-#         text = "Creación Modelo",
-#         tabName = "params",
-#         icon = icon("helmet-safety")
-#       ),
-#       menuItem(
-#         text = "Validación Modelo",
-#         tabName = "creacion",
-#         icon = icon("circle-check")
-#       ),
-#       selectizeInput("filtroano", "Seleccionar el Año para Mostrar",
-#                      choices = seq(2020, year(Sys.Date())),
-#                      selected = year(Sys.Date()),  multiple = TRUE)
-#     )
-#   ),
-#   dashboardBody(
-#     tabItems(
-#         tabItem(
-#           tabName = "resumen",
-#           navbarPage(
-#             title = h2("Productos Candidatos para Creación de Modelos"),
-#             id = "titulocreacion"
-#           ),
-#           fluidRow(
-#             box(
-#               title = "Distribución Análisis Húmedos",
-#               echarts4rOutput(
-#                   "creargraf"
-#               )
-#             ),
-#             box(
-#               title = "Productos para Modelar",
-#               reactableOutput("creartabla")
-#             )
-#           ),
-#           navbarPage(
-#             title = h2("Modelos Creados")
-#           ),
-#           fluidRow(
-#             box(title = "Número Modelos Creados por Análisis", solidHeader = TRUE, status = "warning",
-#               echarts4rOutput("modelograf")
-#             ),
-#             box(
-#               title = "Reportabilidad Modelos", solidHeader = TRUE, status = "warning",
-#               echarts4rOutput("reportemodelo")
-#             )
-#           ),
-#           fluidRow(
-#             column(
-#               width = 12,
-#               reactableOutput("modelotabla")
-#             )
-#           )
-#         ),
-#       tabItem(
-#         tabName = "rechazos",
-#         tabsetPanel(
-#       #     id = "failures",
-#       #     selected = "Resumen",
-#           tabPanel(
-#             title = "Resumen",
-#             fluidRow(
-#               box(
-#                 solidHeader = FALSE,
-#                 title = "Rechazos por Análisis",
-#                 echarts4rOutput("failure_graf")
-#               ),
-#               box(
-#                 solidHeader = FALSE,
-#                 title = "Distribución de Rechazos",
-#                 echarts4rOutput("faildist")
-#               )
-#             ),
-#             fluidRow(
-#               column(
-#                 width = 12,
-#                 reactableOutput("failure_res")
-#               )
-#             )
-#           )
-#         )
-#       ),
-#         tabItem(
-#           tabName = "params",
-#           fluidRow(
-#             # column( width=8,
-#               box(
-#                 title = "Datos Modelos",
-#                 selectizeInput("producto", "Ingresar el número de Producto", choices = NULL),
-#                 selectizeInput("propiedad", label = "Seleccionar el Método a Modelar", choices = c("TAN", "TBN", "TBN47"), selected = NULL),
-#                 selectizeInput("year", "Ingresar el año para el que se recolectan los espectros", choices = NULL),
-#                 textInput("nmodelo", "Ingresar el nombre del Modelo"),
-#                 bs4Dash::actionButton("crear", "Obtener Datos", icon("pen-to-square"))
-#               # )
-#             ),
-#             box(
-#               title = "Distribución Resultados",
-#               plotOutput("histograma")
-#             ),
-#             # box(
-#             #   title = "Estadísticas",
-#             #   reactable::reactableOutput("estadistica")
-#             # )
-#             fluidRow(
-#               infoBoxOutput("media"),
-#               infoBoxOutput("mediana"),
-#               infoBoxOutput("max"),
-#               infoBoxOutput("min")
-#             )
-#           )
-#         ),
-#       tabItem(
-#         tabName = "creacion",
-#         fluidPage(
-#           title = "validación Métodos",
-#           br(),
-#           h1("Trabajo en proceso ...")
-#         )
-#       )
-#     )
-#     ,
-#     fluidRow(
-#       verbatimTextOutput("prueba")
-#     )
-#   )
-# )
 page_navbar(
   title = "Creación Modelos Quimiométricos",
   underline = TRUE,
@@ -187,6 +43,11 @@ page_navbar(
     )
   ),
   nav_panel("Estadísticas Modelos",
+    layout_column_wrap(
+      card(
+          verbatimTextOutput("prueba")
+      )
+    ),
     layout_column_wrap(
       heights_equal = "row",
       height = 800,
@@ -233,9 +94,25 @@ page_navbar(
     )
   ),
   nav_panel("Validación Modelos",
+    # layout_column_wrap(
+    #   card(
+    #     card_title("Archivos de Validación"),
+    #     radioButtons("archivo", "Versión Quant", c("1.0", "2.0"), "1.0", TRUE),
+    #     fileInput("archivovalida", "Seleccionar Archivo de Resultados", accept = ".csv")
+    #   )
+    # ),
     layout_column_wrap(
       card(
-        
+        card_title("Validación"),
+        layout_sidebar(
+          sidebar = sidebar(
+            title = "Carga Archivo Validación",
+            radioButtons("archivo", "Versión Quant", c("1.0", "2.0"), "1.0", TRUE),
+            fileInput("archivovalida", "Seleccionar Archivo de Resultados", accept = ".csv")
+          )
+        ),
+        # verbatimTextOutput("val")
+        reactableOutput("dataval")
       )
     )
   )

@@ -15,7 +15,6 @@ chemcon <- dbConnect(drv = odbc(),
                      .connection_string = glue::glue("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=",
                                                      "-|mdb|-;", .open = "-|", .close = "|-"))
 
-
 # Lectura Archivos --------------------------------------------------------
 
 # Variable Generales ------------------------------------------------------
@@ -25,12 +24,17 @@ analisistit <- c("TAN", "TBN", "TBN47", "TBNIR7", "TBNIR", "TANIR", "DACIR", "DA
 # Lectura Datos -----------------------------------------------------------
 uoa_products <- read_parquet("datos/uoa_products.parquet")
 
-modelos <- chemcon |>  #  read_excel("datos/Quant_Models.xlsx") |> 
-  tbl("Quant_Models") |> 
-  collect() |> 
+modelos <- dbGetQuery(chemcon, "SELECT * FROM Quant_Models") |> 
+# modelos <- chemcon |>  #  read_excel("datos/Quant_Models.xlsx") |> 
+#   tbl("Quant_Models") |> 
+#   collect() |> 
   mutate(GroupID = str_to_upper(GroupID)) |>
   filter(GroupID == 'BOGOTA') |> 
   inner_join(uoa_products, by = c("Product_Number" = "PRODUCT_NUMBER")) |>
+  mutate(Type = case_when(
+    str_starts(Type, "T") ~ str_remove(Type, "T"),
+    TRUE  ~ Type
+  )) |> 
   select(PRODUCT_NAME, Product_Number, Model_Name, Type, F_Value_Limit)
 
 # resultados <- read_parquet("datos/humedo.parquet", as_data_frame = FALSE) |>
@@ -41,12 +45,14 @@ modelos <- chemcon |>  #  read_excel("datos/Quant_Models.xlsx") |>
 #     # ), 
 #     YEAR = lubridate::year(SAMPLE_DATE_AUTHORISED)
 #   )
-failures <- read_csv("datos/2023_Chemometrics Failures.txt") 
+failures <- read_csv("datos/Rechazos/2024_Chemometrics Failures.txt") 
 
 ds <- open_dataset("datos/Resultados") |> 
   mutate(
     YEAR = lubridate::year(SAMPLE_DATE_AUTHORISED)
   )
+
+dbDisconnect(chemcon)
 
 # Muestras para quimiometría ----------------------------------------------
 # limscon <- try(
@@ -146,3 +152,11 @@ ds <- open_dataset("datos/Resultados") |>
 #                             fill = "deepskyblue", alpha = 0.5) +
 #   theme(panel.border = element_rect(colour = "grey70", fill = NA), 
 #         panel.grid = element_line(colour = "grey88", linetype = 3))
+
+# temp <- ds |> 
+#   collect() |> 
+#   filter(YEAR == '2024' & LUBRICANTNUMBER == '40074' & 
+#            ANALYSIS %in% c("TBN47", "OXID", "WATER", "SOOT")) |>
+#   pivot_wider(names_from = ANALYSIS, values_from = RESULT_VALUE)
+# 
+# openxlsx::write.xlsx(temp, "c:/Users/diego.martinez/Downloads/40074.xlsx")

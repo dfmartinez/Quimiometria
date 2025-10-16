@@ -1,0 +1,156 @@
+Method:
+ Name:         d-1-tb28
+ Ident:        Spectrum QUANT+ v4.51
+
+ Version:      6
+ ID:           1736
+ Analyst:      Nelson Giovanni Castro Ramirez
+ Title:        Modelo Quimiométrico para Delvac 1 5w-40
+ Description:  Modelo quimiométrico para TBN 2896 elaborado el 16 de  
+               Mayo de 2017.
+               Los espectros de calibración corresponden a la fecha  
+               juliana 6160 a 7100.
+               El rango de trabajo para el modelo es de
+ Created:              05/24/2017 11:22:30
+ Last modified:        05/24/2017 12:04:27
+ Secured:              No
+ No. of properties:    1
+ No. of standards:     115
+ Calibrated:           Yes
+
+Calculation Parameters:
+ Algorithm:            PLS1
+ Range:                4000 to 450 cm-1
+ Interval:             1 cm-1
+ Analysis Type:        Absorbance
+ Scaling (Spectra):    Mean
+ Scaling (Property):   Mean
+ Smooth:               None
+ Baseline correction:  None
+ Normalization:        None
+ Ordinate threshold:   
+  Upper threshold:     6 A
+  Lower threshold:     0 A
+ Number of factors:    
+  Minimum:             1
+  Maximum:             10
+ Blank regions:        None
+
+Property Values:
+
+ Standards:       Validation (Full)         Property_1            
+  795310                    1             1072,0000 mgKOH   
+  795312                    2              643,0000 mgKOH   
+  795318               Reject              594,0000 mgKOH   
+  795319                    3             1038,0000 mgKOH   
+  795326                    4              652,0000 mgKOH   
+  795331                    5              674,0000 mgKOH   
+  795332                    6              611,0000 mgKOH   
+  797304                    7              681,0000 mgKOH   
+  797312                    8              678,0000 mgKOH   
+  164302                    9              946,0000 mgKOH   
+  164308                   10              984,0000 mgKOH   
+  164319                   11              624,0000 mgKOH   
+  169333                   12              972,0000 mgKOH   
+  171309                   13             1012,0000 mgKOH   
+  171311                   14              614,0000 mgKOH   
+  317308                   15              591,0000 mgKOH   
+  317310                   16              953,0000 mgKOH   
+  317316                   17              662,0000 mgKOH   
+  317326                   18                6,0000 mgKOH   
+  318305               Reject              529,0000 mgKOH   
+  318309               Reject               98,0000 mgKOH   
+  318313               Reject              383,0000 mgKOH   
+  318333               Reject               88,0000 mgKOH   
+  319310                   19              939,0000 mgKOH   
+  319316                   20              574,0000 mgKOH   
+  319318                   21              844,0000 mgKOH   
+  319322                   22              591,0000 mgKOH   
+  319324                   23              604,0000 mgKOH   
+  319326                   24              663,0000 mgKOH   
+  319332                   25              486,0000 mgKOH   
+  319340                   26              921,0000 mgKOH   
+  320304                   27               75,0000 mgKOH   
+  320306                   28              708,0000 mgKOH   
+  320310                   29              438,0000 mgKOH   
+  320312                   30              671,0000 mgKOH   
+  320316                   31              827,0000 mgKOH   
+  320318                   32              857,0000 mgKOH   
+  320320                   33               89,0000 mgKOH   
+  320322                   34              977,0000 mgKOH   
+  320324                   35              471,0000 mgKOH   
+  320326                   36              787,0000 mgKOH   
+  320328                   37              982,0000 mgKOH   
+  320330                   38              571,0000 mgKOH   
+  320334               Reject              781,0000 mgKOH   
+  320336                   39              643,0000 mgKOH   
+  320338                   40              674,0000 mgKOH   
+  337301                   41             1056,0000 mgKOH   
+  337307               Reject              696,0000 mgKOH   
+  337322               Reject               45,0000 mgKOH   
+  337324               Reject              636,0000 mgKOH   
+  337326               Reject              801,0000 mgKOH   
+  590309                   42               95,0000 mgKOH   
+  590310                   43              756,0000 mgKOH   
+  590317                   44              868,0000 mgKOH   
+  590318                   45              741,0000 mgKOH   
+  590323                   46              751,0000 mgKOH   
+  590324                   47              438,0000 mgKOH   
+  590325                   48              763,0000 mgKOH   
+  231301                   49              692,0000 mgKOH   
+  231302                   50              981,0000 mgKOH   
+  231304                   51              742,0000 mgKOH   
+  231305                   52              986,0000 mgKOH   
+  231308                   53              974,0000 mgKOH   
+  231329                   54              655,0000 mgKOH   
+  231331                   55              681,0000 mgKOH   
+  231332                   56             1033,0000 mgKOH   
+  231333                   57             1008,0000 mgKOH   
+  231334                   58              923,0000 mgKOH   
+  231336                   59             1006,0000 mgKOH   
+  231338                   60             1026,0000 mgKOH   
+  231340                   61              847,0000 mgKOH   
+  233333                   62             1033,0000 mgKOH   
+  388305                   63              992,0000 mgKOH   
+  390309                   64              624,0000 mgKOH   
+  390310                   65              878,0000 mgKOH   
+  390319                   66              995,0000 mgKOH   
+  390330                   67               63,0000 mgKOH   
+  509307                   68              647,0000 mgKOH   
+  509308                   69              559,0000 mgKOH   
+  509313                   70              789,0000 mgKOH   
+  511324                   71              617,0000 mgKOH   
+  511337                   72               59,0000 mgKOH   
+  523322                   73              606,0000 mgKOH   
+  298332                   74              607,0000 mgKOH   
+  301326                   75              541,0000 mgKOH   
+  307303                   76              503,0000 mgKOH   
+  356304                   77              561,0000 mgKOH   
+  356308                   78              602,0000 mgKOH   
+  356309                   79               58,0000 mgKOH   
+  356310                   80              602,0000 mgKOH   
+  722304                   81              493,0000 mgKOH   
+  722335                   82              522,0000 mgKOH   
+  443340                   83              516,0000 mgKOH   
+  445326                   84              509,0000 mgKOH   
+  446305                   85              646,0000 mgKOH   
+  545306                   86              952,0000 mgKOH   
+  545308                   87              781,0000 mgKOH   
+  545313                   88              687,0000 mgKOH   
+  545320                   89             1029,0000 mgKOH   
+  545327                   90              371,0000 mgKOH   
+  545332                   91              618,0000 mgKOH   
+  545335                   92              749,0000 mgKOH   
+  545337                   93              652,0000 mgKOH   
+  548301                   94              976,0000 mgKOH   
+  548306                   95              705,0000 mgKOH   
+  548308                   96             1018,0000 mgKOH   
+  548312                   97              817,0000 mgKOH   
+  548322                   98              954,0000 mgKOH   
+  548326                   99              585,0000 mgKOH   
+  779302                  100              749,0000 mgKOH   
+  779306                  101              739,0000 mgKOH   
+  779307                  102              682,0000 mgKOH   
+  779317                  103              899,0000 mgKOH   
+  780319                  104              712,0000 mgKOH   
+  780321                  105              503,0000 mgKOH   

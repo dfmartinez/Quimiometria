@@ -11,31 +11,38 @@ library(patchwork)
 source("Soporte.R")
 
 # Define server logic required to draw a histogram
-shinyServer <- function(input, output) ({
+server <- function(input, output){
+  # shinyServer(function(input, output){
   pendientes <- reactive({
     ds |> # resultados |>
       filter(ANALYSIS %in% c("TAN", "TBN", "TBN47") & YEAR %in% input$filtroano & MODEL == FALSE) |>
+      # filter(ANALYSIS %in% c("TAN", "TBN", "TBN47") & YEAR %in% input$filtroano & is.na(ID)) |>
       # to_duckdb() |>
       # mutate(YEAR = year(SAMPLE_DATE_AUTHORISED)) |>
       group_by(ANALYSIS, PRODUCT_NAME, LUBRICANTNUMBER) 
     # |>
     #   # summarise(PRODUCT_NAME = n())
     #   collect()
+    # browser()
   })
 #  
   modelados <- reactive({
     ds |> # resultados |>
       filter(YEAR %in% input$filtroano & MODEL == TRUE) |>
+      # filter(YEAR %in% input$filtroano & !is.na(ID)) |>
       # to_duckdb() |>
       mutate(TEST = case_when(
           str_detect(ANALYSIS, "TAN") ~ "AN",
-          str_detect(ANALYSIS, ".*7$") ~ "BN47",
+          str_detect(ANALYSIS, ".*7$") ~ "BN 4739",
           str_detect(ANALYSIS, "DAC") ~ "DAC",
-          str_detect(ANALYSIS, "TBN") ~ "BN28",
+          str_detect(ANALYSIS, "TBN") ~ "BN 2896",
           TRUE ~ ANALYSIS
       ))
   })
 #     
+  output$prueba <- renderPrint({
+    pendientes() |> collect()
+  })
   output$creargraf <- renderEcharts4r({
      pendientes()  |>
       summarise(value = n()) |>
@@ -119,7 +126,7 @@ shinyServer <- function(input, output) ({
 # 
 # # Rechazos Quimiometría ---------------------------------------------------
 
-output$failure_graf <- renderEcharts4r({
+  output$failure_graf <- renderEcharts4r({
   failures |>
     count(Test) |>
     arrange(n) |>
@@ -128,7 +135,7 @@ output$failure_graf <- renderEcharts4r({
     e_tooltip()
 })
 # 
-output$faildist <- renderEcharts4r({
+  output$faildist <- renderEcharts4r({
   failures |>
     separate_longer_delim(`Failure Reasons`, "|") |>
     count(Test, `Failure Reasons`) |>
@@ -138,7 +145,7 @@ output$faildist <- renderEcharts4r({
     e_pie(n, roseType = "radius",  itemStyle = list(borderRadius = 5)) |>
     e_tooltip()
 })
-output$failure_res <- renderReactable({
+  output$failure_res <- renderReactable({
   failures |>
     separate_longer_delim(`Failure Reasons`, "|") |>
     count(Test, Model, `Failure Reasons`, name = "#Failures") |> 
@@ -153,7 +160,7 @@ output$failure_res <- renderReactable({
 })
 
 # # Creación Carpetas y Copia Espectros -------------------------------------
-res_humedo <- reactive({
+  res_humedo <- reactive({
   ds |> # resultados |>
     filter(YEAR %in% input$filtroano  &
              ANALYSIS %in% c(!!input$propiedad, "OXID", "SOOT", "WATER", "OXID3P", "SOOT3P", "WATER3P"))  |>
@@ -161,8 +168,8 @@ res_humedo <- reactive({
     # inner_join(productos(), by = c("ID_NUMERIC" = "SAMPLE")) |>
     collect() |>
     mutate(IdEspectro = str_sub(ID_TEXT, start = -6))
-})
-datomodelo <- reactive(
+  })
+  datomodelo <- reactive(
   {
     model <- getReactableState("creartabla", name = "selected")
     if(is.null(model)){
@@ -287,8 +294,8 @@ observeEvent(input$crear,
       summarise(Media = mean(RESULT_VALUE, rm.na = TRUE), Desviacion = sd(RESULT_VALUE), 
                 Muestras = n(), `Máximo` = max(RESULT_VALUE), `Mínimo` = 
                   min(RESULT_VALUE)) |>
-      mutate(across(everything(), \(x) round(x, digits = 2)))
-      pivot_longer(Media:`Mínimo`, names_to = "Propiedad", values_to = "Resultado") |> 
+      mutate(across(everything(), \(x) round(x, digits = 2))) |> 
+      pivot_longer(Media:`Mínimo`, names_to = "Propiedad", values_to = "Resultado") |>
       reactable()
   })
   # output$media <- renderInfoBox({
@@ -335,7 +342,10 @@ observeEvent(input$crear,
     val1 <- read_csv(archivo, skip = 1, n_max = nlineas)
     val2 <- read_csv(archivo, skip = nlineas + 6)
     bind_cols(val1,val2) |> 
-      select(-)
+      select(Sample, `RMS Error`, `Total M-Dist`, `Calc. Value`, `M-Distance`)
   }) |> 
     bindEvent(input$archivovalida)
-})
+# })
+
+
+}
