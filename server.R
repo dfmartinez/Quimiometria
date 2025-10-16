@@ -11,7 +11,7 @@ library(patchwork)
 source("Soporte.R")
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer <- function(input, output) ({
   pendientes <- reactive({
     ds |> # resultados |>
       filter(ANALYSIS %in% c("TAN", "TBN", "TBN47") & YEAR %in% input$filtroano & MODEL == FALSE) |>
@@ -319,4 +319,23 @@ observeEvent(input$crear,
   #   failures |> 
   #     separate_longer_delim(`Failure Reasons`, "|")
   # })
+  output$val <- renderPrint({
+    validaDato()
+  })
+  output$dataval <- renderReactable({
+    validaDato() |> 
+      reactable()
+  })
+  validaDato <- reactive({
+    archivo <- input$archivovalida$datapath
+    nlineas <- read_lines(archivo, n_max = 1) |> 
+      str_split_i(",",2) |> 
+      as.numeric()
+    
+    val1 <- read_csv(archivo, skip = 1, n_max = nlineas)
+    val2 <- read_csv(archivo, skip = nlineas + 6)
+    bind_cols(val1,val2) |> 
+      select(-)
+  }) |> 
+    bindEvent(input$archivovalida)
 })
